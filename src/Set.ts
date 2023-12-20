@@ -32,7 +32,6 @@ type Card = {
 }
 
 export class SetGame {
-    // private completeDeck: Card[];
     private cardsOnTable: Card[];
     private cardsInDeck: Card[];
 
@@ -59,12 +58,65 @@ export class SetGame {
         this.ensureSetOnTable();
     }
 
-    private ensureSetOnTable(): boolean{
-
+    private ensureSetOnTable(): boolean {
+        let setOnTable: boolean = true;
+        let emptyDeck: boolean = false;
+        while(true){
+            setOnTable = this.checkSetOnTable();
+            if(!setOnTable){
+                for(let i = 0; i < 3; i++) {
+                    const poppedCard = this.cardsInDeck.pop()
+                    if(poppedCard != null){
+                        this.cardsOnTable.push(poppedCard);
+                    } else{
+                        emptyDeck = true;
+                        break;
+                    }
+                }
+                if(emptyDeck){
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        return !emptyDeck;     
     }
 
     private checkSetOnTable(): boolean {
-
+        
+        const combinations = (arr: Card[], size: number): Array<Card[]> => {
+            const len = arr.length;
+          
+            if (size > len){
+                return [];
+            }
+            if (size === len){
+                return [arr];
+            }
+            if (size == 1) {
+                const combs = [];
+                for (let i = 0; i < arr.length; i++) {
+                    combs.push([arr[i]]);
+                }
+                return combs;
+            }
+          
+            return arr.reduce((acc: Array<Card[]>, val: Card, i: number) => {
+              const res = combinations(arr.slice(i + 1), size - 1)
+                .map((comb) => [val].concat(comb) );
+              
+              return acc.concat(res);
+            }, []);
+        }
+        
+        const possibleSets = combinations(this.cardsOnTable, 3);
+        for(let possibleSet of possibleSets){
+            if(this.validateSet(possibleSet)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private shuffleDeck(): void {
