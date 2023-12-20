@@ -24,6 +24,12 @@ export enum Number {
 
 type CardProperty = Color | Shading | Shape | Number;
 
+export enum PlayResult {
+    gameOver,
+    validSet,
+    invalidSet
+}
+
 type Card = {
     color: Color;
     shading: Shading;
@@ -56,6 +62,48 @@ export class SetGame {
             }
         }
         this.ensureSetOnTable();
+    }
+
+    public getCardsOnTable() {
+        return [...this.cardsOnTable]
+    }
+
+    public play(cards: Card[]): PlayResult {
+        const cardsOnTable = cards.every(c => this.cardInArray(c, this.cardsOnTable));
+        const validSet = cardsOnTable && this.validateSet(cards);
+        if(!validSet){
+            return PlayResult.invalidSet;
+        } else {
+            this.cardsOnTable = 
+                this.cardsOnTable
+                    .filter(card => !this.cardInArray(card, cards));
+            if(this.cardsOnTable.length < 12 && this.cardsInDeck.length > 0){
+                for(let i = 0; i < 3; i++){
+                    const poppedCard = this.cardsInDeck.pop()
+                    if(poppedCard != null){
+                        this.cardsOnTable.push(poppedCard);
+                    }
+                }
+            }
+            const gameOver = !this.ensureSetOnTable();
+            return gameOver ? PlayResult.gameOver : PlayResult.validSet
+        }
+    }
+
+    private cardInArray(card: Card, array: Card[]): boolean {
+        for(let c of array){
+            if(this.cardsAreSame(c, card)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private cardsAreSame(card1: Card, card2: Card): boolean {
+        return card1.color === card2.color 
+            && card1.number === card2.number 
+            && card1.shading === card2.shading 
+            && card1.shape === card2.shape;
     }
 
     private ensureSetOnTable(): boolean {
