@@ -30,7 +30,7 @@ export enum PlayResult {
     invalidSet
 }
 
-type Card = {
+export type Card = {
     color: Color;
     shading: Shading;
     shape: Shape;
@@ -90,7 +90,7 @@ export class SetGame {
         }
     }
 
-    private cardInArray(card: Card, array: Card[]): boolean {
+    public cardInArray(card: Card, array: Card[]): boolean {
         for(let c of array){
             if(this.cardsAreSame(c, card)){
                 return true;
@@ -99,7 +99,7 @@ export class SetGame {
         return false;
     }
 
-    private cardsAreSame(card1: Card, card2: Card): boolean {
+    public cardsAreSame(card1: Card, card2: Card): boolean {
         return card1.color === card2.color 
             && card1.number === card2.number 
             && card1.shading === card2.shading 
@@ -142,7 +142,7 @@ export class SetGame {
             if (size === len){
                 return [arr];
             }
-            if (size == 1) {
+            if (size === 1) {
                 const combs = [];
                 for (let i = 0; i < arr.length; i++) {
                     combs.push([arr[i]]);
