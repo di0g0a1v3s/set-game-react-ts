@@ -30,11 +30,28 @@ export enum PlayResult {
     invalidSet
 }
 
-export type Card = {
-    color: Color;
-    shading: Shading;
-    shape: Shape;
-    number: Number
+export class Card {
+   
+    constructor(public color: Color,
+        public shading: Shading,
+        public shape: Shape,
+        public number: Number){}
+
+    public isInArray(array: Card[]): boolean {
+        for(let c of array){
+            if(c.isSameAs(this)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public isSameAs(otherCard: Card): boolean {
+        return this.color === otherCard.color 
+            && this.number === otherCard.number 
+            && this.shading === otherCard.shading 
+            && this.shape === otherCard.shape;
+    }
 }
 
 export class SetGame {
@@ -48,7 +65,7 @@ export class SetGame {
             for(let shading of [Shading.empty, Shading.solid, Shading.striped]){
                 for(let shape of [Shape.diamond, Shape.oval, Shape.squiggle]){
                     for(let number of [Number.one, Number.two, Number.three]){
-                        const newCard: Card = {color, shading, shape, number};
+                        const newCard: Card = new Card(color, shading, shape, number);
                         this.cardsInDeck.push(newCard)
                     }
                 }
@@ -68,42 +85,37 @@ export class SetGame {
         return [...this.cardsOnTable]
     }
 
+    public getNumberOfCardsInDeck() {
+        return this.cardsInDeck.length
+    }
+
     public play(cards: Card[]): PlayResult {
-        const cardsOnTable = cards.every(c => this.cardInArray(c, this.cardsOnTable));
+        const cardsOnTable = cards.every(c => c.isInArray(this.cardsOnTable));
         const validSet = cardsOnTable && this.validateSet(cards);
         if(!validSet){
             return PlayResult.invalidSet;
         } else {
-            this.cardsOnTable = 
-                this.cardsOnTable
-                    .filter(card => !this.cardInArray(card, cards));
-            if(this.cardsOnTable.length < 12 && this.cardsInDeck.length > 0){
-                for(let i = 0; i < 3; i++){
-                    const poppedCard = this.cardsInDeck.pop()
-                    if(poppedCard != null){
-                        this.cardsOnTable.push(poppedCard);
+            let newCardsOnTable: Array<Card | null> = [...this.cardsOnTable]
+            if(newCardsOnTable.length <= 12){
+                for(let i = 0; i < newCardsOnTable.length; i++){
+                    if(newCardsOnTable[i] != null && (newCardsOnTable[i] as Card).isInArray(cards)){
+                        const poppedCard = this.cardsInDeck.pop();
+                        if(poppedCard != null){
+                            newCardsOnTable[i] = poppedCard;
+                        } else {
+                            newCardsOnTable[i] = null;
+                        }
                     }
                 }
+            } else {
+                newCardsOnTable = newCardsOnTable.filter(c => !c?.isInArray(cards))
             }
+            
+            this.cardsOnTable = newCardsOnTable.filter(card => card != null) as Card[];
+            
             const gameOver = !this.ensureSetOnTable();
             return gameOver ? PlayResult.gameOver : PlayResult.validSet
         }
-    }
-
-    public cardInArray(card: Card, array: Card[]): boolean {
-        for(let c of array){
-            if(this.cardsAreSame(c, card)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public cardsAreSame(card1: Card, card2: Card): boolean {
-        return card1.color === card2.color 
-            && card1.number === card2.number 
-            && card1.shading === card2.shading 
-            && card1.shape === card2.shape;
     }
 
     private ensureSetOnTable(): boolean {

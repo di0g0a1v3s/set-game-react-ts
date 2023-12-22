@@ -6,9 +6,10 @@ import { Card, PlayResult, SetGame } from './Set';
 interface BoardState {
   cardsOnTable: Card[];
   selectedCards: Card[];
-  lastPlayResult: PlayResult | null;
   validSet: Card[];
   invalidSet: Card[];
+  numberOfCardsInDeck: number;
+  gameOver: boolean;
 }
 
 export enum CardState {
@@ -28,12 +29,18 @@ export class Board extends React.Component<{}, BoardState> {
         selectedCards: [],
         validSet: [],
         invalidSet: [],
-        lastPlayResult: null,
+        numberOfCardsInDeck: this.setGame.getNumberOfCardsInDeck(),
+        gameOver: false
       }
     }
 
     onCardSelected(card: Card) {
-      const selectedCards: Card[] = [card, ...this.state.selectedCards];
+      let selectedCards: Card[];
+      if(card.isInArray(this.state.selectedCards)){
+        selectedCards = this.state.selectedCards.filter(c => !card.isSameAs(c));
+      } else {
+        selectedCards = [card, ...this.state.selectedCards];
+      }
       this.setState({selectedCards})
       if(selectedCards.length >= 3){
         const playResult = this.setGame.play(selectedCards);
@@ -42,17 +49,20 @@ export class Board extends React.Component<{}, BoardState> {
           this.setState({validSet: selectedCards})
         } else if(playResult === PlayResult.invalidSet){
           this.setState({invalidSet: selectedCards})
+        } else if(playResult === PlayResult.gameOver){
+          this.setState({validSet: selectedCards, gameOver: true})
         }
         setTimeout(() => {
           const cardsOnTable = this.setGame.getCardsOnTable();
-          this.setState({invalidSet: [], validSet: [], lastPlayResult: playResult, cardsOnTable})
-        }, 500)
+          const numberOfCardsInDeck = this.setGame.getNumberOfCardsInDeck();
+          this.setState({invalidSet: [], validSet: [], cardsOnTable, numberOfCardsInDeck})
+        }, 300)
         
       }
     }
 
     render(): React.ReactNode {
-        return <div className='board'> 
+        return [<div className='board'> 
           {this.state.cardsOnTable.map(card => {
             return <CardComponent 
                       color={card.color} 
@@ -61,13 +71,16 @@ export class Board extends React.Component<{}, BoardState> {
                       shape={card.shape}
                       onCardSelected={() => this.onCardSelected(card)}
                       cardState={
-                        this.setGame.cardInArray(card, this.state.selectedCards) ? CardState.selected :
-                        this.setGame.cardInArray(card, this.state.validSet) ? CardState.correct :
-                        this.setGame.cardInArray(card, this.state.invalidSet) ? CardState.incorrect :
+                        card.isInArray(this.state.selectedCards) ? CardState.selected :
+                        card.isInArray(this.state.validSet) ? CardState.correct :
+                        card.isInArray(this.state.invalidSet) ? CardState.incorrect :
                         CardState.unselected
                       }/>}
           )}
-        </div>
+        </div>,
+        <div>Number of card in deck: {this.state.numberOfCardsInDeck}</div>,
+        this.state.gameOver ? <div>GAME OVER</div> : null
+        ]
     }
 }
 // function App() {
