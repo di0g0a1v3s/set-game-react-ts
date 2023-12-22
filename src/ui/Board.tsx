@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card as CardComponent } from './Card';
-import { Card, PlayResult, SetGame } from './Set';
+import { Card, PlayResult, SetGame } from '../game-mechanics/Set';
 
 interface BoardState {
   cardsOnTable: Card[];

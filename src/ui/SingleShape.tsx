@@ -1,20 +1,13 @@
 import React from "react";
-import { Color, Shading, Shape, Number } from "./Set";
-import { CardState } from './Board';
+import { Color, Shading, Shape } from "../game-mechanics/Set";
 
-interface CardProps extends ShapeProps {
-    number: Number;
-    onCardSelected: () => void;
-    cardState: CardState;
-};
-
-interface ShapeProps {
+export interface ShapeProps {
     color: Color;
     shading: Shading;
     shape: Shape;
 };
 
-class SingleShape extends React.Component<ShapeProps>{
+export class SingleShape extends React.Component<ShapeProps>{
     
     render(): React.ReactNode {
         let color = '';
@@ -123,33 +116,4 @@ class SingleShape extends React.Component<ShapeProps>{
         </div>
     }
 
-}
-
-
-export class Card extends React.Component<CardProps>{
-    render(): React.ReactNode {
-        const numOfShapes = this.props.number === Number.one ? 1 
-                            : this.props.number === Number.two ? 2 : 3
-        let cardClass = "";
-        switch(this.props.cardState){
-            case CardState.correct:
-                cardClass = "card-correct";
-                break;
-            case CardState.incorrect:
-                cardClass = "card-incorrect";
-                break;
-            case CardState.selected:
-                cardClass = "card-selected";
-                break;
-        }
-        return <div 
-            className={`card ${cardClass}`}
-            onClick={this.props.onCardSelected}>
-            { 
-                Array(numOfShapes).fill(
-                    <SingleShape color={this.props.color} shading={this.props.shading} shape={this.props.shape}/>
-                )
-            }
-        </div>
-    }
 }
