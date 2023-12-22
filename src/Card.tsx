@@ -32,51 +32,51 @@ class SingleShape extends React.Component<ShapeProps>{
                 break;
         }
         const diamondPolygon = (color: string, shading: Shading) => {
-            const ret = [<polygon points="2 20 50 2 98 20 50 38" stroke={color} fill={shading === Shading.solid ? color : "transparent"} stroke-width="4"/>]
+            const ret = [<polygon points="2 20 50 2 98 20 50 38" stroke={color} fill={shading === Shading.solid ? color : "transparent"} strokeWidth="4"/>]
             if(shading === Shading.striped){
-                ret.push(<line x1="50" x2="50" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="10" x2="10" y1="18" y2="22" stroke={color} stroke-width="2"/>,
-                            <line x1="90" x2="90" y1="18" y2="22" stroke={color} stroke-width="2"/>,
-                            <line x1="15" x2="15" y1="16" y2="24" stroke={color} stroke-width="2"/>,
-                            <line x1="85" x2="85" y1="16" y2="24" stroke={color} stroke-width="2"/>,
-                            <line x1="20" x2="20" y1="14" y2="26" stroke={color} stroke-width="2"/>,
-                            <line x1="80" x2="80" y1="14" y2="26" stroke={color} stroke-width="2"/>,
-                            <line x1="25" x2="25" y1="12" y2="28" stroke={color} stroke-width="2"/>,
-                            <line x1="75" x2="75" y1="12" y2="28" stroke={color} stroke-width="2"/>,
-                            <line x1="30" x2="30" y1="10" y2="30" stroke={color} stroke-width="2"/>,
-                            <line x1="70" x2="70" y1="10" y2="30" stroke={color} stroke-width="2"/>,
-                            <line x1="35" x2="35" y1="8" y2="32" stroke={color} stroke-width="2"/>,
-                            <line x1="65" x2="65" y1="8" y2="32" stroke={color} stroke-width="2"/>,
-                            <line x1="40" x2="40" y1="6" y2="34" stroke={color} stroke-width="2"/>,
-                            <line x1="60" x2="60" y1="6" y2="34" stroke={color} stroke-width="2"/>,
-                            <line x1="45" x2="45" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                            <line x1="55" x2="55" y1="4" y2="36" stroke={color} stroke-width="2"/>)
+                ret.push(<line x1="50" x2="50" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="10" x2="10" y1="18" y2="22" stroke={color} strokeWidth="2"/>,
+                            <line x1="90" x2="90" y1="18" y2="22" stroke={color} strokeWidth="2"/>,
+                            <line x1="15" x2="15" y1="16" y2="24" stroke={color} strokeWidth="2"/>,
+                            <line x1="85" x2="85" y1="16" y2="24" stroke={color} strokeWidth="2"/>,
+                            <line x1="20" x2="20" y1="14" y2="26" stroke={color} strokeWidth="2"/>,
+                            <line x1="80" x2="80" y1="14" y2="26" stroke={color} strokeWidth="2"/>,
+                            <line x1="25" x2="25" y1="12" y2="28" stroke={color} strokeWidth="2"/>,
+                            <line x1="75" x2="75" y1="12" y2="28" stroke={color} strokeWidth="2"/>,
+                            <line x1="30" x2="30" y1="10" y2="30" stroke={color} strokeWidth="2"/>,
+                            <line x1="70" x2="70" y1="10" y2="30" stroke={color} strokeWidth="2"/>,
+                            <line x1="35" x2="35" y1="8" y2="32" stroke={color} strokeWidth="2"/>,
+                            <line x1="65" x2="65" y1="8" y2="32" stroke={color} strokeWidth="2"/>,
+                            <line x1="40" x2="40" y1="6" y2="34" stroke={color} strokeWidth="2"/>,
+                            <line x1="60" x2="60" y1="6" y2="34" stroke={color} strokeWidth="2"/>,
+                            <line x1="45" x2="45" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                            <line x1="55" x2="55" y1="4" y2="36" stroke={color} strokeWidth="2"/>)
             }
             return ret;
         }
 
         const ovalPolygon = (color: string, shading: Shading) => {
-            const ret = [<rect x="2" y="2" rx="18" ry="18" width="96" height="36" stroke={color} fill={shading === Shading.solid ? color : "transparent"} stroke-width="4"/>]
+            const ret = [<rect x="2" y="2" rx="18" ry="18" width="96" height="36" stroke={color} fill={shading === Shading.solid ? color : "transparent"} strokeWidth="4"/>]
             if(shading === Shading.striped){
-                ret.push(<line x1="50" x2="50" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="5" x2="5" y1="8" y2="32" stroke={color} stroke-width="2"/>,
-                            <line x1="95" x2="95" y1="8" y2="32" stroke={color} stroke-width="2"/>,
-                            <line x1="10" x2="10" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                            <line x1="90" x2="90" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                            <line x1="15" x2="15" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                            <line x1="85" x2="85" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                            <line x1="20" x2="20" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="80" x2="80" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="25" x2="25" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="75" x2="75" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="30" x2="30" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="70" x2="70" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="35" x2="35" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="65" x2="65" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="40" x2="40" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="60" x2="60" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="45" x2="45" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                            <line x1="55" x2="55" y1="2" y2="38" stroke={color} stroke-width="2"/>)
+                ret.push(<line x1="50" x2="50" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="5" x2="5" y1="8" y2="32" stroke={color} strokeWidth="2"/>,
+                            <line x1="95" x2="95" y1="8" y2="32" stroke={color} strokeWidth="2"/>,
+                            <line x1="10" x2="10" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                            <line x1="90" x2="90" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                            <line x1="15" x2="15" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                            <line x1="85" x2="85" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                            <line x1="20" x2="20" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="80" x2="80" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="25" x2="25" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="75" x2="75" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="30" x2="30" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="70" x2="70" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="35" x2="35" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="65" x2="65" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="40" x2="40" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="60" x2="60" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="45" x2="45" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                            <line x1="55" x2="55" y1="2" y2="38" stroke={color} strokeWidth="2"/>)
             }
             return ret;
         }
@@ -87,28 +87,28 @@ class SingleShape extends React.Component<ShapeProps>{
                 C-5,28 0,0 18,2 
                 C45,5 50,20 84,2
                 C105,12 100,40 82,38 
-                C55,35 50,20 16,38" stroke={color} fill={shading === Shading.solid ? color : "transparent"} stroke-width="4"/>]
+                C55,35 50,20 16,38" stroke={color} fill={shading === Shading.solid ? color : "transparent"} strokeWidth="4"/>]
             if(shading === Shading.striped){
                 ret.push(
-                    <line x1="5" x2="5" y1="10" y2="30" stroke={color} stroke-width="2"/>,
-                    <line x1="10" x2="10" y1="4" y2="34" stroke={color} stroke-width="2"/>,
-                    <line x1="15" x2="15" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                    <line x1="20" x2="20" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                    <line x1="25" x2="25" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                    <line x1="30" x2="30" y1="4" y2="34" stroke={color} stroke-width="2"/>,
-                    <line x1="35" x2="35" y1="6" y2="32" stroke={color} stroke-width="2"/>,
-                    <line x1="40" x2="40" y1="6" y2="30" stroke={color} stroke-width="2"/>,
-                    <line x1="45" x2="45" y1="8" y2="30" stroke={color} stroke-width="2"/>,
-                    <line x1="50" x2="50" y1="8" y2="30" stroke={color} stroke-width="2"/>,
-                    <line x1="55" x2="55" y1="10" y2="30" stroke={color} stroke-width="2"/>,
-                    <line x1="60" x2="60" y1="8" y2="32" stroke={color} stroke-width="2"/>,
-                    <line x1="65" x2="65" y1="8" y2="32" stroke={color} stroke-width="2"/>,
-                    <line x1="70" x2="70" y1="6" y2="36" stroke={color} stroke-width="2"/>,
-                    <line x1="75" x2="75" y1="6" y2="38" stroke={color} stroke-width="2"/>,
-                    <line x1="80" x2="80" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                    <line x1="85" x2="85" y1="2" y2="38" stroke={color} stroke-width="2"/>,
-                    <line x1="90" x2="90" y1="4" y2="36" stroke={color} stroke-width="2"/>,
-                    <line x1="95" x2="95" y1="10" y2="32" stroke={color} stroke-width="2"/>,)
+                    <line x1="5" x2="5" y1="10" y2="30" stroke={color} strokeWidth="2"/>,
+                    <line x1="10" x2="10" y1="4" y2="34" stroke={color} strokeWidth="2"/>,
+                    <line x1="15" x2="15" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                    <line x1="20" x2="20" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                    <line x1="25" x2="25" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                    <line x1="30" x2="30" y1="4" y2="34" stroke={color} strokeWidth="2"/>,
+                    <line x1="35" x2="35" y1="6" y2="32" stroke={color} strokeWidth="2"/>,
+                    <line x1="40" x2="40" y1="6" y2="30" stroke={color} strokeWidth="2"/>,
+                    <line x1="45" x2="45" y1="8" y2="30" stroke={color} strokeWidth="2"/>,
+                    <line x1="50" x2="50" y1="8" y2="30" stroke={color} strokeWidth="2"/>,
+                    <line x1="55" x2="55" y1="10" y2="30" stroke={color} strokeWidth="2"/>,
+                    <line x1="60" x2="60" y1="8" y2="32" stroke={color} strokeWidth="2"/>,
+                    <line x1="65" x2="65" y1="8" y2="32" stroke={color} strokeWidth="2"/>,
+                    <line x1="70" x2="70" y1="6" y2="36" stroke={color} strokeWidth="2"/>,
+                    <line x1="75" x2="75" y1="6" y2="38" stroke={color} strokeWidth="2"/>,
+                    <line x1="80" x2="80" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                    <line x1="85" x2="85" y1="2" y2="38" stroke={color} strokeWidth="2"/>,
+                    <line x1="90" x2="90" y1="4" y2="36" stroke={color} strokeWidth="2"/>,
+                    <line x1="95" x2="95" y1="10" y2="32" stroke={color} strokeWidth="2"/>,)
             }
             return ret;
         }
