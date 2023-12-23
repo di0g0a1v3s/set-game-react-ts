@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card as CardComponent } from './Card';
-import { Card, PlayResult, SetGame } from '../game-mechanics/Set';
+import { Card, PlayResult } from '../game-mechanics/Set';
+import { SetGameApi } from '../api/SetGameApi';
 
 interface BoardState {
   cardsOnTable: Card[];
@@ -19,10 +20,10 @@ export enum CardState {
 }
 
 export class Board extends React.Component<{}, BoardState> {
-    private setGame: SetGame;
+    private setGame: SetGameApi;
     constructor(props: {}){
       super(props);
-      this.setGame = new SetGame();
+      this.setGame = new SetGameApi(null);
       this.state = {
         cardsOnTable: this.setGame.getCardsOnTable(),
         selectedCards: [],
