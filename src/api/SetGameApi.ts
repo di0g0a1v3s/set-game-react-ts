@@ -1,6 +1,6 @@
 import { SetGame, Card } from "../game-mechanics/Set";
-import firebase from 'firebase/compat/app';
-import "firebase/compat/database";
+import { initializeApp } from "firebase/app";
+import { getDatabase, Database, ref, set, get } from "firebase/database";
 
 
 
@@ -9,12 +9,12 @@ const firebaseConfig = {
 };
 
 export class SetGameApi {
-    private database: firebase.database.Database;
+    private database: Database;
     private isHost: boolean;
     private setGame: SetGame | null = null;
     constructor(private roomId: string | null) {
-        const app = firebase.initializeApp(firebaseConfig);
-        this.database = firebase.database(app)
+        const app = initializeApp(firebaseConfig);
+        this.database = getDatabase(app)
         this.isHost = false;
         if(roomId == null){
             console.log("qqq ")
@@ -29,13 +29,13 @@ export class SetGameApi {
     }
 
     private async roomIsActive(roomId: string) {
-        const ret = await this.database.ref('room/' + roomId).get()
+        const ret = await get(ref(this.database, 'room/' + roomId))
         return ret.exists()
     }
 
     private initializeRoom(roomId: string) {
         this.setGame = new SetGame();
-        this.database.ref('room/' + roomId).set({
+        set(ref(this.database, 'room/' + roomId), {
             cardsOnTable: this.setGame.getCardsOnTable()
         });
     }
