@@ -1,57 +1,57 @@
 export enum Color {
-    green,
-    red,
-    violet
+    green = "green",
+    red = "red",
+    violet = "violet"
 }
 
 export enum Shading {
-    solid,
-    empty,
-    striped
+    solid = "solid",
+    empty = "empty",
+    striped = "striped"
 }
 
 export enum Shape {
-    diamond,
-    oval,
-    squiggle
+    diamond = "diamond",
+    oval = "oval",
+    squiggle = "squiggle"
 }
 
 export enum Number {
-    one,
-    two,
-    three
+    one = 1,
+    two = 2,
+    three = 3
 }
 
 type CardProperty = Color | Shading | Shape | Number;
 
 export enum PlayResult {
-    gameOver,
-    validSet,
-    invalidSet
+    gameOver = "gameOver",
+    validSet = "validSet",
+    invalidSet = "invalidSet"
 }
 
-export class Card {
-   
-    constructor(public color: Color,
-        public shading: Shading,
-        public shape: Shape,
-        public number: Number){}
-
-    public isInArray(array: Card[]): boolean {
+export abstract class CardHelper {
+    public static cardIsInArray(card: Card, array: Card[]): boolean {
         for(let c of array){
-            if(c.isSameAs(this)){
+            if(this.cardsAreTheSame(card, c)){
                 return true;
             }
         }
         return false;
     }
 
-    public isSameAs(otherCard: Card): boolean {
-        return this.color === otherCard.color 
-            && this.number === otherCard.number 
-            && this.shading === otherCard.shading 
-            && this.shape === otherCard.shape;
+    public static cardsAreTheSame(card1: Card, card2: Card): boolean {
+        return card1.color === card2.color 
+            && card1.number === card2.number 
+            && card1.shading === card2.shading 
+            && card1.shape === card2.shape;
     }
+}
+export type Card = {
+    color: Color,
+    shading: Shading,
+    shape: Shape,
+    number: Number
 }
 
 export class SetGame {
@@ -65,13 +65,13 @@ export class SetGame {
             for(let shading of [Shading.empty, Shading.solid, Shading.striped]){
                 for(let shape of [Shape.diamond, Shape.oval, Shape.squiggle]){
                     for(let number of [Number.one, Number.two, Number.three]){
-                        const newCard: Card = new Card(color, shading, shape, number);
+                        const newCard: Card = {color, shading, shape, number};
                         this.cardsInDeck.push(newCard)
                     }
                 }
             }
         }
-        this.shuffleDeck();
+        // this.shuffleDeck();
         for(let i = 0; i < 12; i++){
             const poppedCard = this.cardsInDeck.pop()
             if(poppedCard != null){
@@ -90,7 +90,7 @@ export class SetGame {
     }
 
     public play(cards: Card[]): PlayResult {
-        const cardsOnTable = cards.every(c => c.isInArray(this.cardsOnTable));
+        const cardsOnTable = cards.every(c => CardHelper.cardIsInArray(c, this.cardsOnTable));
         const validSet = cardsOnTable && this.validateSet(cards);
         if(!validSet){
             return PlayResult.invalidSet;
@@ -98,7 +98,7 @@ export class SetGame {
             let newCardsOnTable: Array<Card | null> = [...this.cardsOnTable]
             if(newCardsOnTable.length <= 12){
                 for(let i = 0; i < newCardsOnTable.length; i++){
-                    if(newCardsOnTable[i] != null && (newCardsOnTable[i] as Card).isInArray(cards)){
+                    if(newCardsOnTable[i] != null && CardHelper.cardIsInArray((newCardsOnTable[i] as Card), cards)){
                         const poppedCard = this.cardsInDeck.pop();
                         if(poppedCard != null){
                             newCardsOnTable[i] = poppedCard;
@@ -108,7 +108,7 @@ export class SetGame {
                     }
                 }
             } else {
-                newCardsOnTable = newCardsOnTable.filter(c => !c?.isInArray(cards))
+                newCardsOnTable = newCardsOnTable.filter(c => !CardHelper.cardIsInArray(c as Card,cards))
             }
             
             this.cardsOnTable = newCardsOnTable.filter(card => card != null) as Card[];
