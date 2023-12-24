@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-.board{
+.set-board{
   margin: 50px;
   display: flex;
   flex-wrap: wrap;
@@ -21,7 +21,7 @@ code {
   align-content: flex-start;
 }
 
-.card {
+.set-card {
   margin: 10px;
   display: flex;
   flex-direction: column;
@@ -33,19 +33,23 @@ code {
   align-items: center;
 }
 
-.card-selected {
+.set-card-selected {
   background-color: rgba(255, 255, 0, 0.5);
 }
 
-.card-correct {
+.set-card-unselected {
+  background-color: white;
+}
+
+.set-card-correct {
   background-color: rgba(0, 128, 0, 0.5);
 }
 
-.card-incorrect {
+.set-card-incorrect {
   background-color: rgba(255, 0, 0, 0.5);
 }
 
-.shape{
+.set-shape{
   width: 100px;
   height: 40px;
 }

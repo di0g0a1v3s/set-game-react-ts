@@ -71,7 +71,7 @@ export class SetGame {
                 }
             }
         }
-        // this.shuffleDeck();
+        this.shuffleDeck();
         for(let i = 0; i < 12; i++){
             const poppedCard = this.cardsInDeck.pop()
             if(poppedCard != null){

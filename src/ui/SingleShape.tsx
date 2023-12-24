@@ -106,7 +106,7 @@ export class SingleShape extends React.Component<ShapeProps>{
             return ret;
         }
 
-        return <div className="shape"> 
+        return <div className="set-shape"> 
             <svg width="100" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 {
                     this.props.shape === Shape.diamond ? diamondPolygon(color, this.props.shading) : 

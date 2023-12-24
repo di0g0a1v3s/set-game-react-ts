@@ -1,7 +1,7 @@
-import { SetGame, Card, PlayResult } from '../game-mechanics/Set';
+import { SetGame, Card } from '../game-mechanics/Set';
 import { initializeApp } from "firebase/app";
-import { getDatabase, Database, ref, set, get, onValue } from "firebase/database";
-import { firebaseConfig } from './GameRoomCommon';
+import { getDatabase, Database, ref, set, onValue } from "firebase/database";
+import { firebaseConfig, generateRandomId } from './GameRoomCommon';
 
 export class GameRoomHost {
     private database: Database;
@@ -10,19 +10,19 @@ export class GameRoomHost {
     constructor() {
         const app = initializeApp(firebaseConfig);
         this.database = getDatabase(app)
-        this.roomId = this.generateRandomId();
+        this.roomId = generateRandomId();
         console.log("qqq new room", this.roomId)
         this.initializeRoom(this.roomId)
          
         onValue(ref(this.database, 'room/' + this.roomId + "/play"), (snapshot) => {
-            const cards = snapshot.val() as Card[];
-            if(cards != null){
+            const cards = snapshot.val()?.cards as Card[];
+            const playId = snapshot.val()?.id as string;
+            if(cards != null && playId != null){
                 const playResult = this.setGame?.play(cards)
-                set(ref(this.database, 'room/' + this.roomId + "/playResult"), {cards: cards, playResult: playResult});
+                set(ref(this.database, 'room/' + this.roomId + "/playResult"), {id: playId, cards: cards, playResult: playResult});
                 setTimeout(() => {
-                    set(ref(this.database, 'room/' + this.roomId + "/gameState"), {id: this.generateRandomId(), cardsOnTable: this.setGame?.getCardsOnTable(), numberOfCardsInDeck: this.setGame?.getNumberOfCardsInDeck()});
+                    set(ref(this.database, 'room/' + this.roomId + "/gameState"), {id: generateRandomId(), cardsOnTable: this.setGame?.getCardsOnTable(), numberOfCardsInDeck: this.setGame?.getNumberOfCardsInDeck()});
                 }, 300)
-                
             }
         })
     }
@@ -31,17 +31,8 @@ export class GameRoomHost {
         return this.roomId;
     }
 
-    private async roomIsActive(roomId: string) {
-        const ret = await get(ref(this.database, 'room/' + roomId))
-        return ret.exists()
-    }
-
     private initializeRoom(roomId: string) {
         this.setGame = new SetGame();
-        set(ref(this.database, 'room/' + roomId + "/gameState"), {id: this.generateRandomId(), cardsOnTable: this.setGame?.getCardsOnTable(), numberOfCardsInDeck: this.setGame?.getNumberOfCardsInDeck()});
-    }
-
-    private generateRandomId(): string {
-        return (Math.random() + 1).toString(36).substring(2);
+        set(ref(this.database, 'room/' + roomId + "/gameState"), {id: generateRandomId(), cardsOnTable: this.setGame?.getCardsOnTable(), numberOfCardsInDeck: this.setGame?.getNumberOfCardsInDeck()});
     }
 }

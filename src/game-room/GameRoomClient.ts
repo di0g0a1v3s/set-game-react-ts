@@ -1,7 +1,7 @@
-import { SetGame, Card } from '../game-mechanics/Set';
+import { Card } from '../game-mechanics/Set';
 import { initializeApp } from "firebase/app";
 import { getDatabase, Database, ref, set, get, onValue } from "firebase/database";
-import { firebaseConfig, GamePlayResult, GameState } from './GameRoomCommon';
+import { firebaseConfig, GamePlayResult, GameState, generateRandomId } from './GameRoomCommon';
 
 export class GameRoomClient {
     private database: Database;
@@ -47,7 +47,7 @@ export class GameRoomClient {
     }
 
     public play(cards: Card[]) {
-        set(ref(this.database, 'room/' + this.roomId + "/play"), cards);
+        set(ref(this.database, 'room/' + this.roomId + "/play"), {id: generateRandomId(), cards});
     }
 }
 

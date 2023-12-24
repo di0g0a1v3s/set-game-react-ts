@@ -37,12 +37,12 @@ export class Board extends React.Component<BoardProps, BoardState> {
     componentDidMount(): void {
       this.props.gameRoom.getCurrentGameState().then(state => {
         if(state != null){
-          this.setState({cardsOnTable: state.cardsOnTable, numberOfCardsInDeck: state.numberOfCardsInDeck})
+          this.setState({cardsOnTable: state.cardsOnTable ?? [], numberOfCardsInDeck: state.numberOfCardsInDeck})
         }
       })
       this.props.gameRoom.onGameStateChange(state => {
         if(state != null){
-          this.setState({invalidSet: [], validSet: [], cardsOnTable: state.cardsOnTable, numberOfCardsInDeck: state.numberOfCardsInDeck})
+          this.setState({invalidSet: [], validSet: [], cardsOnTable: state.cardsOnTable ?? [], numberOfCardsInDeck: state.numberOfCardsInDeck})
         }
       })
       this.props.gameRoom.onPlayResult(gamePlayResult => {
@@ -73,24 +73,26 @@ export class Board extends React.Component<BoardProps, BoardState> {
     }
 
     render(): React.ReactNode {
-        return [<div className='board'> 
-          {this.state.cardsOnTable.map(card => {
-            return <CardComponent 
-                      color={card.color} 
-                      number={card.number} 
-                      shading={card.shading} 
-                      shape={card.shape}
-                      onCardSelected={() => this.onCardSelected(card)}
-                      cardState={
-                        CardHelper.cardIsInArray(card,this.state.selectedCards) ? CardState.selected :
-                        CardHelper.cardIsInArray(card,this.state.validSet) ? CardState.correct :
-                        CardHelper.cardIsInArray(card,this.state.invalidSet) ? CardState.incorrect :
-                        CardState.unselected
-                      }/>}
-          )}
-        </div>,
-        <div>Number of card in deck: {this.state.numberOfCardsInDeck}</div>,
-        this.state.gameOver ? <div>GAME OVER</div> : null
-        ]
+        return <div className='bg-body p-4 border border-dark rounded'>
+          <div>Room ID: {this.props.gameRoom.getRoomId()}</div>
+          <div className='set-board'> 
+            {this.state.cardsOnTable.map(card => {
+              return <CardComponent 
+                        color={card.color} 
+                        number={card.number} 
+                        shading={card.shading} 
+                        shape={card.shape}
+                        onCardSelected={() => this.onCardSelected(card)}
+                        cardState={
+                          CardHelper.cardIsInArray(card,this.state.selectedCards) ? CardState.selected :
+                          CardHelper.cardIsInArray(card,this.state.validSet) ? CardState.correct :
+                          CardHelper.cardIsInArray(card,this.state.invalidSet) ? CardState.incorrect :
+                          CardState.unselected
+                        }/>}
+            )}
+          </div>
+          <div>Number of card in deck: {this.state.numberOfCardsInDeck}</div>
+          {this.state.gameOver ? <div>GAME OVER</div> : null}
+        </div>
     }
 }

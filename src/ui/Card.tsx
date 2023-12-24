@@ -16,17 +16,20 @@ export class Card extends React.Component<CardProps>{
         let cardClass = "";
         switch(this.props.cardState){
             case CardState.correct:
-                cardClass = "card-correct";
+                cardClass = "set-card-correct";
                 break;
             case CardState.incorrect:
-                cardClass = "card-incorrect";
+                cardClass = "set-card-incorrect";
                 break;
             case CardState.selected:
-                cardClass = "card-selected";
+                cardClass = "set-card-selected";
+                break;
+            case CardState.unselected:
+                cardClass = "set-card-unselected";
                 break;
         }
         return <div 
-            className={`card ${cardClass}`}
+            className={`set-card ${cardClass}`}
             onClick={this.props.onCardSelected}>
             { 
                 Array(numOfShapes).fill(
