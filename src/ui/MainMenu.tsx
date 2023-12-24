@@ -1,10 +1,11 @@
 import React from 'react';
-import { GameRoom } from '../game-room/GameRoom';
+import { GameRoomClient } from '../game-room/GameRoomClient';
+import { GameRoomHost } from '../game-room/GameRoomHost';
 import { Board } from './Board';
 
 interface MainMenuState {
     showMainMenu: boolean
-    gameRoom: GameRoom | null;
+    gameRoom: GameRoomClient | null;
 }
 
 export class MainMenu extends React.Component<{}, MainMenuState> {
@@ -19,8 +20,9 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
 
 
     startNewRoom() {
-        const gameRoom = new GameRoom(null);
-        this.setState({showMainMenu: false, gameRoom})
+        const gameRoomHost = new GameRoomHost();
+        const gameRoomClient = new GameRoomClient(gameRoomHost.getRoomId());
+        this.setState({showMainMenu: false, gameRoom: gameRoomClient})
     }
 
     render(): React.ReactNode {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card as CardComponent } from './Card';
 import { Card, CardHelper, PlayResult } from '../game-mechanics/Set';
-import { GameRoom } from '../game-room/GameRoom';
+import { GameRoomClient } from '../game-room/GameRoomClient';
 
 interface BoardState {
   cardsOnTable: Card[];
@@ -19,7 +19,7 @@ export enum CardState {
   incorrect
 }
 export interface BoardProps {
-  gameRoom: GameRoom;
+  gameRoom: GameRoomClient;
 }
 export class Board extends React.Component<BoardProps, BoardState> {
     constructor(props: BoardProps){
@@ -29,22 +29,31 @@ export class Board extends React.Component<BoardProps, BoardState> {
         selectedCards: [],
         validSet: [],
         invalidSet: [],
-        numberOfCardsInDeck: this.props.gameRoom.getNumberOfCardsInDeck(),
+        numberOfCardsInDeck: 0,
         gameOver: false
       }
-      
     }
 
     componentDidMount(): void {
-      this.props.gameRoom.getCurrentCardsOnTable().then(cardsOnTable => {
-        if(cardsOnTable != null){
-          this.setState({cardsOnTable})
+      this.props.gameRoom.getCurrentGameState().then(state => {
+        if(state != null){
+          this.setState({cardsOnTable: state.cardsOnTable, numberOfCardsInDeck: state.numberOfCardsInDeck})
         }
       })
-      this.props.gameRoom.onCardsOnTableChange(cardsOnTable => {
-        console.log("qqq cards on table change")
-        if(cardsOnTable != null){
-          this.setState({cardsOnTable})
+      this.props.gameRoom.onGameStateChange(state => {
+        if(state != null){
+          this.setState({invalidSet: [], validSet: [], cardsOnTable: state.cardsOnTable, numberOfCardsInDeck: state.numberOfCardsInDeck})
+        }
+      })
+      this.props.gameRoom.onPlayResult(gamePlayResult => {
+        if(gamePlayResult != null){
+          if(gamePlayResult.playResult === PlayResult.validSet){
+            this.setState({validSet: gamePlayResult.cards})
+          } else if(gamePlayResult.playResult === PlayResult.invalidSet){
+            this.setState({invalidSet: gamePlayResult.cards})
+          } else if(gamePlayResult.playResult === PlayResult.gameOver){
+            this.setState({validSet: gamePlayResult.cards, gameOver: true})
+          }
         }
       })
     }
@@ -58,22 +67,8 @@ export class Board extends React.Component<BoardProps, BoardState> {
       }
       this.setState({selectedCards})
       if(selectedCards.length >= 3){
-        // const playResult = 
         this.props.gameRoom.play(selectedCards);
         this.setState({selectedCards: []});
-        // if(playResult === PlayResult.validSet){
-        //   this.setState({validSet: selectedCards})
-        // } else if(playResult === PlayResult.invalidSet){
-        //   this.setState({invalidSet: selectedCards})
-        // } else if(playResult === PlayResult.gameOver){
-        //   this.setState({validSet: selectedCards, gameOver: true})
-        // }
-        // setTimeout(() => {
-        //   // const cardsOnTable = this.props.gameRoom.getCardsOnTable();
-        //   const numberOfCardsInDeck = this.props.gameRoom.getNumberOfCardsInDeck();
-        //   this.setState({invalidSet: [], validSet: [], cardsOnTable, numberOfCardsInDeck})
-        // }, 300)
-        
       }
     }
 
