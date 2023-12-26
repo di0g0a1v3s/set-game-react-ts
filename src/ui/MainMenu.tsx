@@ -35,7 +35,7 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
     }
 
     render(): React.ReactNode {
-        return <div className='bg-danger-subtle d-flex flex-column justify-content-center align-items-center vh-100' >
+        return <div className='d-flex bg-success bg-opacity-50 bg-gradient flex-column justify-content-center align-items-center min-vh-100' >
             { (this.state.showMainMenu || this.state.gameRoom == null) ? 
             <div className='bg-body p-4 border border-dark rounded'>
                 <div className='d-flex justify-content-center align-items-center'>
@@ -52,7 +52,7 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
                     <Button variant='outline-danger' onClick={() => this.enterExistingRoom(this.state.inputValue)}>GO!</Button>
                 </div>
             </div>
-            : <div className='d-flex justify-content-center align-items-center'>
+            : <div className='d-flex justify-content-center align-items-center p-4'>
                 <Board gameRoom={this.state.gameRoom}/>
             </div>
             }
