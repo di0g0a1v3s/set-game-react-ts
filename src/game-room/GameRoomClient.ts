@@ -5,13 +5,20 @@ import { firebaseConfig, GamePlayResult, GameState, generateRandomId } from './G
 
 export class GameRoomClient {
     private database: Database;
+    public readonly playerID: string;
     constructor(private roomId: string) {
         const app = initializeApp(firebaseConfig);
         this.database = getDatabase(app)
+        this.playerID = "Player-" + generateRandomId().substring(0,4);
+        set(ref(this.database, 'room/' + this.roomId + "/newPlayer"), {playerID: this.playerID});
     }
 
-    public getRoomId(){
+    public getRoomID(){
         return this.roomId;
+    }
+
+    public getPlayerID() {
+        return this.playerID;
     }
 
     // private async roomIsActive(roomId: string) {
@@ -47,7 +54,7 @@ export class GameRoomClient {
     }
 
     public play(cards: Card[]) {
-        set(ref(this.database, 'room/' + this.roomId + "/play"), {id: generateRandomId(), cards});
+        set(ref(this.database, 'room/' + this.roomId + "/play"), {id: generateRandomId(), playerID: this.playerID, cards});
     }
 }
 

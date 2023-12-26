@@ -25,7 +25,7 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
 
     startNewRoom() {
         const gameRoomHost = new GameRoomHost();
-        const gameRoomClient = new GameRoomClient(gameRoomHost.getRoomId());
+        const gameRoomClient = new GameRoomClient(gameRoomHost.getRoomID());
         this.setState({showMainMenu: false, gameRoom: gameRoomClient})
     }
 
@@ -37,7 +37,7 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
     render(): React.ReactNode {
         return <div className='d-flex bg-success bg-opacity-50 bg-gradient flex-column justify-content-center align-items-center min-vh-100' >
             { (this.state.showMainMenu || this.state.gameRoom == null) ? 
-            <div className='bg-body p-4 border border-dark rounded'>
+            <div className='bg-body p-4 border border-dark rounded m-4'>
                 <div className='d-flex justify-content-center align-items-center'>
                     <Button variant='outline-success' onClick={() => this.startNewRoom()}>
                         START NEW ROOM

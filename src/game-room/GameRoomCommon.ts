@@ -7,6 +7,7 @@ export const firebaseConfig = {
 export interface GameState{
     cardsOnTable: Card[];
     numberOfCardsInDeck: number;
+    scoreBoard: {[playerID: string]: number};
 }
 
 export interface GamePlayResult{
@@ -15,6 +16,14 @@ export interface GamePlayResult{
 }
 
 export function generateRandomId(): string {
-    return (Math.random() + 1).toString(36).substring(2);
+    let result = '';
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < 10) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
 }
 
