@@ -1,46 +1,42 @@
-# Getting Started with Create React App
+# SET Game Online
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+You can try it here: https://set-game-6cb33.web.app/
 
-## Available Scripts
+## Game rules
 
-In the project directory, you can run:
+Go to https://set-game-6cb33.web.app/ and click `Start new game`, or enter an existing game ID if someone has already created a game.
 
-### `npm start`
+<img width="577" alt="Screenshot 2024-04-27 at 22 30 50" src="https://github.com/di0g0a1v3s/set-game-react-ts/assets/60743836/8fc50765-e524-47f5-b8d6-4c80aa658f3f">
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The goal of the game is to find the most SETs. A SET is defined as 3 cards in which:
+- They all have the same number or have three different numbers.
+- They all have the same shape or have three different shapes.
+- They all have the same shading or have three different shadings.
+- They all have the same color or have three different colors.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<img width="800" alt="Screenshot pc" src="https://github.com/di0g0a1v3s/set-game-react-ts/assets/60743836/5060944a-a85c-4a6a-b3c4-49b94f3a97e3">
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The game is also optimized for mobile screens:
 
-### `npm run build`
+<img width="200" alt="Screenshot phone" src="https://github.com/di0g0a1v3s/set-game-react-ts/assets/60743836/1a7d12f5-51f2-445d-878a-4c7cd34b0f75">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technical details
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project is hosted on Firebase. Everytime there is a change on the master branch, Github Actions will automatically trigger a re-deploy.
 
-### `npm run eject`
+### Architecture
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+This project has no backend code. It simply has a database (Firebase Realtime Database), from which the clients read the state of the game.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The client who creates the room, a.k.a. the host, is responsible for updating the state of the game in the database, i.e., processing plays, making sure they are valid, updating the score board, and updating the cards on the table.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The rest of the clients only write to the database when they make a play.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The frontend was implemented using Typescript and React.
 
-## Learn More
+### Developing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+To develop locally, simply clone the repo and run `npm start`
