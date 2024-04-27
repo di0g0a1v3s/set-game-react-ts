@@ -74,6 +74,12 @@ export class Board extends React.Component<BoardProps, BoardState> {
       }
     }
 
+    computeWinner(){
+     return Object.keys(this.state.scoreBoard).sort((a, b) => {
+        return this.state.scoreBoard[b] - this.state.scoreBoard[a]
+      })[0];
+    }
+
     render(): React.ReactNode {
         return <div className='d-flex flex-column justify-content-center align-items-center bg-body p-3 border border-dark rounded w-100 h-100'>
           <div className="d-flex flex-column flex-lg-row justify-content-center">
@@ -116,9 +122,31 @@ export class Board extends React.Component<BoardProps, BoardState> {
                 </table>
               </div>
               <h2><span className="badge bg-primary">Number of cards in deck: {this.state.numberOfCardsInDeck}</span></h2>
-              {this.state.gameOver ? <h2><span className="badge bg-danger">GAME OVER</span></h2> : null}
             </div>
           </div>
+
+
+
+          { this.state.gameOver && <><div className="modal fade bd-example-modal-lg show" tabIndex={-1} role="dialog" style={{ "display": "block" }}>
+            <div className="modal-dialog modal-dialog-centered">
+
+              <div className="modal-content">
+                <div className="modal-header justify-content-center">
+                  <h4 className="modal-title text-danger" id="exampleModalLongTitle">GAME OVER</h4>
+                </div>
+                <div className="modal-body d-flex justify-content-center">
+                  <h5 className="modal-title" id="exampleModalLongTitle">{this.computeWinner() === this.props.gameRoom.playerID ? 'You won!' : `Winner: ${this.computeWinner()}`}</h5>
+                </div>
+                <div className="modal-footer justify-content-center">
+                  <button type="button" className="btn btn btn-outline-dark" data-dismiss="modal" onClick={() => {
+                    window.location.replace('/');
+                  } }>Back to main menu</button>
+                </div>
+              </div>
+            </div>
+          </div><div className="modal-backdrop fade show"></div></> }
+
+
         </div>
     }
 }
