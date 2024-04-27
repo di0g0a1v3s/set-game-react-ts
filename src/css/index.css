@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.bg{
+  background-color: #00a6cfe4;
+}
+
 .set-board{
   margin: 20px;
   display: flex;
