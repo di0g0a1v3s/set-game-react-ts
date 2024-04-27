@@ -14,6 +14,8 @@ The goal of the game is to find the most SETs. A SET is defined as 3 cards in wh
 - They all have the same shading or have three different shadings.
 - They all have the same color or have three different colors.
 
+(https://en.wikipedia.org/wiki/Set_(card_game))
+
 <img width="800" alt="Screenshot pc" src="https://github.com/di0g0a1v3s/set-game-react-ts/assets/60743836/5060944a-a85c-4a6a-b3c4-49b94f3a97e3">
 
 
