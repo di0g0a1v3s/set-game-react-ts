@@ -75,7 +75,7 @@ export class Board extends React.Component<BoardProps, BoardState> {
     }
 
     render(): React.ReactNode {
-        return <div className='d-flex flex-column justify-content-center align-items-center bg-body p-4 border border-dark rounded w-100 h-100'>
+        return <div className='d-flex flex-column justify-content-center align-items-center bg-body p-3 border border-dark rounded w-100 h-100'>
           <div className="d-flex flex-column flex-lg-row justify-content-center">
             <div className={`set-board ${this.state.cardsOnTable.length > 12 ? 'set-board-15' : 'set-board-12'}`}> 
               {this.state.cardsOnTable.map(card => {

@@ -12,7 +12,6 @@ export class GameRoomHost {
         const app = initializeApp(firebaseConfig);
         this.database = getDatabase(app)
         this.roomId = generateRandomId();
-        console.log("qqq new room", this.roomId)
         this.scoreBoard = new Map();
         this.initializeRoom(this.roomId)
          
