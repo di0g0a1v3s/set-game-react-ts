@@ -23,15 +23,22 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
     }
 
 
+    componentWillMount(): void {
+        if(window.location.pathname.length > 5){
+            this.enterExistingRoom(window.location.pathname.replaceAll('/', ''));
+        }
+    }
+
     startNewRoom() {
         const gameRoomHost = new GameRoomHost();
         const gameRoomClient = new GameRoomClient(gameRoomHost.getRoomID());
         this.setState({showMainMenu: false, gameRoom: gameRoomClient})
+        window.history.pushState({}, "", `/${gameRoomHost.getRoomID()}`);
     }
 
     enterExistingRoom(roomId: string): void {
         const gameRoomClient = new GameRoomClient(roomId);
-        this.setState({showMainMenu: false, gameRoom: gameRoomClient})
+        this.setState({showMainMenu: false, gameRoom: gameRoomClient});
     }
 
     render(): React.ReactNode {
@@ -40,19 +47,20 @@ export class MainMenu extends React.Component<{}, MainMenuState> {
             <div className='bg-body p-4 border border-dark rounded m-4'>
                 <div className='d-flex justify-content-center align-items-center'>
                     <Button variant='outline-success' onClick={() => this.startNewRoom()}>
-                        START NEW ROOM
+                        START NEW GAME
                     </Button>
                 </div>
                 <div className='d-flex justify-content-center align-items-center m-4'>
                     OR
                 </div>
                 <div className='d-flex flex-column flex-sm-row justify-content-center align-items-center'>
-                    <label>Enter existing Room ID:</label>
+                    <label>Enter existing Game ID:</label>
                     <input className="m-2" value={this.state.inputValue} onChange={(evt) => this.setState({inputValue: evt.target.value})}></input>
                     <Button variant='outline-danger' onClick={
                         () => {
                             if(this.state.inputValue != null && this.state.inputValue !== "") {
                                 this.enterExistingRoom(this.state.inputValue) 
+                                window.history.pushState({}, "", `/${this.state.inputValue}`);
                             }
                         }
                     }>GO!</Button>
