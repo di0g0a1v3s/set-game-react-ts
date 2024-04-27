@@ -80,7 +80,8 @@ export class SingleShape extends React.Component<ShapeProps>{
                 C-5,28 0,0 18,2 
                 C45,5 50,20 84,2
                 C105,12 100,40 82,38 
-                C55,35 50,20 16,38" stroke={color} fill={shading === Shading.solid ? color : "transparent"} strokeWidth="4"/>]
+                C55,35 50,20 16,38
+                Z" stroke={color} fill={shading === Shading.solid ? color : "transparent"} strokeWidth="4"/>]
             if(shading === Shading.striped){
                 ret.push(
                     <line x1="5" x2="5" y1="10" y2="30" stroke={color} strokeWidth="2"/>,
@@ -107,7 +108,7 @@ export class SingleShape extends React.Component<ShapeProps>{
         }
 
         return <div className="set-shape"> 
-            <svg width="100" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40">
                 {
                     this.props.shape === Shape.diamond ? diamondPolygon(color, this.props.shading) : 
                         this.props.shape === Shape.oval ? ovalPolygon(color, this.props.shading) : squigglePolygon(color, this.props.shading)
